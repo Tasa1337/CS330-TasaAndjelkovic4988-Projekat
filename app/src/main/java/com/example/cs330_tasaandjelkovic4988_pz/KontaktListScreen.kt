@@ -19,7 +19,7 @@ fun KontaktListScreen(
     var pretraga by remember { mutableStateOf("") }
 
     val filtriraniKontakti = kontakti.filter {
-        it.ime.contains(pretraga, ignoreCase = true) || it.prezime.contains(pretraga, ignoreCase = true)
+        it.kontakt.ime.contains(pretraga, ignoreCase = true) || it.kontakt.prezime.contains(pretraga, ignoreCase = true)
     }
 
     Scaffold(
@@ -38,21 +38,21 @@ fun KontaktListScreen(
                 modifier = Modifier.fillMaxWidth().padding(16.dp)
             )
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(filtriraniKontakti) { kontakt ->
+                items(filtriraniKontakti) { stavka ->
                     Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text(text = "${kontakt.ime} ${kontakt.prezime}", style = MaterialTheme.typography.titleMedium)
-                            Text(text = kontakt.brojTelefona)
-                            Text(text = kontakt.email)
-                            Text(text = kontakt.kategorija)
-                            if (kontakt.omiljeni) {
+                            Text(text = "${stavka.kontakt.ime} ${stavka.kontakt.prezime}", style = MaterialTheme.typography.titleMedium)
+                            Text(text = stavka.kontakt.brojTelefona)
+                            Text(text = stavka.kontakt.email)
+                            Text(text = stavka.kategorija.naziv)
+                            if (stavka.kontakt.omiljeni) {
                                 Text(text = "★ Omiljeni")
                             }
                             Row(modifier = Modifier.padding(top = 8.dp)) {
-                                TextButton(onClick = { onEditClick(kontakt) }) {
+                                TextButton(onClick = { onEditClick(stavka.kontakt) }) {
                                     Text("Izmeni")
                                 }
-                                TextButton(onClick = { viewModel.deleteKontakt(kontakt) }) {
+                                TextButton(onClick = { viewModel.deleteKontakt(stavka.kontakt) }) {
                                     Text("Obrisi", color = MaterialTheme.colorScheme.error)
                                 }
                             }
