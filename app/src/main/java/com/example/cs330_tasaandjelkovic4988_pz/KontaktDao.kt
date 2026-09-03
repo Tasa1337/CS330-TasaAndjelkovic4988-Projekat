@@ -4,11 +4,12 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface KontaktDao{
+interface KontaktDao {
     @Insert
     suspend fun insert(kontakt: Kontakt)
 
@@ -18,7 +19,7 @@ interface KontaktDao{
     @Delete
     suspend fun delete(kontakt: Kontakt)
 
+    @Transaction
     @Query("SELECT * FROM kontakti")
-    fun getAll(): Flow<List<Kontakt>>
-
+    fun getAllSaKategorijom(): Flow<List<KontaktSaKategorijom>>
 }
