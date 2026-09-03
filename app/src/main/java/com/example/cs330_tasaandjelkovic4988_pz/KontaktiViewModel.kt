@@ -1,18 +1,21 @@
 package com.example.cs330_tasaandjelkovic4988_pz
 
-import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class KontaktiViewModel(application: Application) : AndroidViewModel(application) {
-    private val kontaktDao = AppDatabase.getDatabase(application).kontaktDao()
-    private val kategorijaDao = AppDatabase.getDatabase(application).kategorijaDao()
+@HiltViewModel
+class KontaktiViewModel @Inject constructor(
+    private val kontaktDao: KontaktDao,
+    private val kategorijaDao: KategorijaDao
+) : ViewModel() {
 
     val kontakti: StateFlow<List<KontaktSaKategorijom>> = kontaktDao.getAllSaKategorijom()
         .stateIn(
